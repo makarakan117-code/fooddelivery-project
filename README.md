@@ -29,6 +29,25 @@ You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you
 
 If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
 
+## TiDB Cloud deployment
+
+TiDB Cloud connects through Laravel's MySQL driver. Create a dedicated `food_delivery` database in TiDB Cloud, then add these variables to the Vercel Production environment:
+
+```text
+DB_CONNECTION=mysql
+DB_HOST=<TiDB host>
+DB_PORT=4000
+DB_DATABASE=food_delivery
+DB_USERNAME=<TiDB username>
+DB_PASSWORD=<newly rotated TiDB password>
+MYSQL_ATTR_SSL_CA=<path to the TiDB CA certificate in the deployment>
+MYSQL_ATTR_SSL_VERIFY_SERVER_CERT=true
+```
+
+Keep the password in Vercel environment variables only. If TiDB requires a CA certificate, include the downloaded certificate in the deployment and set `MYSQL_ATTR_SSL_CA` to its absolute path. Allow Vercel's outbound network access in the TiDB network settings; do not expose the database to all IP addresses.
+
+After setting the variables, run `php artisan migrate --force` once from a trusted environment with the same database settings. Vercel's serverless filesystem is ephemeral, so the database must be external.
+
 ## Laravel Sponsors
 
 We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
