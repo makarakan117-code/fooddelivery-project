@@ -38,6 +38,7 @@ APP_KEY=<generated Laravel application key>
 APP_URL=https://<your-production-domain>
 LOG_CHANNEL=stderr
 SESSION_DRIVER=cookie
+SESSION_SECURE_COOKIE=true
 DB_CONNECTION=mysql
 DB_HOST=<TiDB host>
 DB_PORT=4000
