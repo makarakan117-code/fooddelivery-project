@@ -1,11 +1,18 @@
 {
   "buildCommand": "npm run build",
-  "outputDirectory": "public",
   "devCommand": "php artisan serve",
-  "rewrites": [
+  "routes": [
     {
-      "source": "/(.*)",
-      "destination": "/api/index.php"
+      "src": "/(build|css|image|storage)/(.*)",
+      "dest": "public/$1/$2"
+    },
+    {
+      "src": "/(favicon.ico|robots.txt)",
+      "dest": "public/$1"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
     }
   ],
   "headers": [
