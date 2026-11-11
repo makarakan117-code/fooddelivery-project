@@ -34,6 +34,8 @@ If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Lar
 TiDB Cloud connects through Laravel's MySQL driver. Create a dedicated `food_delivery` database in TiDB Cloud, then add these variables to the Vercel Production environment:
 
 ```text
+APP_KEY=<generated Laravel application key>
+LOG_CHANNEL=stderr
 DB_CONNECTION=mysql
 DB_HOST=<TiDB host>
 DB_PORT=4000
@@ -45,6 +47,8 @@ MYSQL_ATTR_SSL_VERIFY_SERVER_CERT=true
 ```
 
 Keep the password in Vercel environment variables only. If TiDB requires a CA certificate, include the downloaded certificate in the deployment and set `MYSQL_ATTR_SSL_CA` to its absolute path. Allow Vercel's outbound network access in the TiDB network settings; do not expose the database to all IP addresses.
+
+Generate `APP_KEY` with `php artisan key:generate --show` and store it as a secret in Vercel. Vercel's PHP runtime needs Laravel's package manifest generated during the build, so the configured build command runs `php artisan package:discover --ansi`.
 
 After setting the variables, run `php artisan migrate --force` once from a trusted environment with the same database settings. Vercel's serverless filesystem is ephemeral, so the database must be external.
 
