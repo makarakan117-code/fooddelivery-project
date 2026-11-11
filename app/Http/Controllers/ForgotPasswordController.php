@@ -21,7 +21,7 @@ class ForgotPasswordController extends Controller
         );
 
         if ($status === Password::RESET_LINK_SENT) {
-            return back()->with('success', 'A reset code has been sent to your email address.');
+            return back()->with('success', 'A password reset link has been sent to your email address.');
         }
 
         return back()->withErrors(['email' => 'We could not find an account with that email address.']);

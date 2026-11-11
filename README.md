@@ -55,6 +55,21 @@ On Vercel, compiled Blade views are written to `/tmp/food-delivery-views`, since
 
 Use the cookie session driver on Vercel so web sessions do not rely on ephemeral function storage.
 
+Password reset emails require a configured SMTP provider. Set these variables in the Vercel Production environment, using credentials from your email provider and a verified sender address:
+
+```text
+MAIL_MAILER=smtp
+MAIL_HOST=<SMTP host>
+MAIL_PORT=587
+MAIL_USERNAME=<SMTP username>
+MAIL_PASSWORD=<SMTP password>
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=<verified sender address>
+MAIL_FROM_NAME="${APP_NAME}"
+```
+
+Set `APP_URL` to the production HTTPS domain so reset links point to the deployed site. Redeploy after changing Vercel environment variables.
+
 After setting the variables, run `php artisan migrate --force` once from a trusted environment with the same database settings. Vercel's serverless filesystem is ephemeral, so the database must be external.
 
 ## Laravel Sponsors

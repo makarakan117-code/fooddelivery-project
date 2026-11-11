@@ -160,7 +160,7 @@
 
         <h2 class="auth-title">Forgot Password</h2>
         <p class="auth-subtitle">
-            Enter your e-mail address below and we will send you a reset code to confirm your account.
+            Enter your e-mail address below and we will send you a password reset link.
         </p>
 
         @if(session('success'))
@@ -208,7 +208,7 @@
                 @enderror
             </div>
 
-            <button type="submit" class="send-btn">Send Reset Code</button>
+            <button type="submit" class="send-btn">Send Reset Link</button>
         </form>
 
         <p class="back-link">
