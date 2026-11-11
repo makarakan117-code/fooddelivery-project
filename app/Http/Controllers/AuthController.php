@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
 class AuthController extends Controller
@@ -30,20 +31,34 @@ class AuthController extends Controller
             ]);
         }
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            $user = Auth::user();
-            if ($user->isAdmin()) {
-                return redirect()->route('admin.dashboard');
-            } elseif ($user->isDelivery()) {
-                return redirect()->route('delivery.dashboard');
+        if (!Auth::attempt($credentials)) {
+            $storedPassword = $user?->getAuthPassword();
+
+            if (
+                !$user
+                || password_get_info($storedPassword)['algo'] !== null
+                || !hash_equals($storedPassword, $credentials['password'])
+            ) {
+                return back()->withErrors([
+                    'email' => 'The provided credentials do not match our records.',
+                ]);
             }
-            return redirect()->route('home');
+
+            $user->password = Hash::make($credentials['password']);
+            $user->save();
+            Auth::login($user);
         }
 
-        return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
-        ]);
+        $request->session()->regenerate();
+        $user = Auth::user();
+
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        } elseif ($user->isDelivery()) {
+            return redirect()->route('delivery.dashboard');
+        }
+
+        return redirect()->route('home');
     }
 
     public function showRegister()
