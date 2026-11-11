@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link href="{{ asset('css/custom.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
 </head>
 <body>
     @include('delivery.components.sidebar')
@@ -69,14 +70,18 @@
             const toggler = document.getElementById('sidebarToggler');
 
             function openSidebar() {
+                if (!sidebar || !overlay) return;
                 sidebar.classList.add('open');
                 overlay.classList.add('open');
+                if (toggler) toggler.setAttribute('aria-expanded', 'true');
                 document.body.style.overflow = 'hidden';
             }
 
             function closeSidebar() {
+                if (!sidebar || !overlay) return;
                 sidebar.classList.remove('open');
                 overlay.classList.remove('open');
+                if (toggler) toggler.setAttribute('aria-expanded', 'false');
                 document.body.style.overflow = '';
             }
 
@@ -93,6 +98,10 @@
             if (overlay) {
                 overlay.addEventListener('click', closeSidebar);
             }
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') closeSidebar();
+            });
 
             document.querySelectorAll('.delivery-sidebar .delivery-nav-item, .delivery-sidebar button[type="submit"]').forEach(function(el) {
                 el.addEventListener('click', function() {

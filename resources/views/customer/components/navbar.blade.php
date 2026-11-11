@@ -10,9 +10,9 @@
             <span class="sire-brand-text">FoodDelivery</span>
         </a>
 
-        {{-- <button class="sire-toggler" type="button" onclick="document.getElementById('sireNav').classList.toggle('open')" aria-label="Toggle navigation">
+        <button class="sire-toggler" type="button" aria-controls="sireNav" aria-expanded="false" aria-label="Toggle navigation">
             <i class="bi bi-list"></i>
-        </button> --}}
+        </button>
 
         <div class="sire-collapse show" id="sireNav">
             <ul class="sire-nav-links">
@@ -73,3 +73,34 @@
         </div>
     </div>
 </nav>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const nav = document.getElementById('sireNav');
+        const toggler = document.querySelector('.sire-toggler');
+
+        if (!nav || !toggler) return;
+
+        function closeNav() {
+            nav.classList.remove('open');
+            toggler.setAttribute('aria-expanded', 'false');
+        }
+
+        toggler.addEventListener('click', function () {
+            const isOpen = nav.classList.toggle('open');
+            toggler.setAttribute('aria-expanded', String(isOpen));
+        });
+
+        nav.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', closeNav);
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') closeNav();
+        });
+
+        window.addEventListener('resize', function () {
+            if (window.innerWidth > 991.98) closeNav();
+        });
+    });
+</script>

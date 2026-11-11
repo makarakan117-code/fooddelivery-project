@@ -1,6 +1,6 @@
 <header class="delivery-topbar">
     <div class="delivery-topbar-left">
-        <button class="delivery-sidebar-toggler" id="sidebarToggler" aria-label="Toggle sidebar">
+        <button class="delivery-sidebar-toggler" id="sidebarToggler" aria-controls="deliverySidebar" aria-expanded="false" aria-label="Toggle sidebar">
             <i class="bi bi-list"></i>
         </button>
         <div>

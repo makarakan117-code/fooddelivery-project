@@ -672,6 +672,8 @@
             }
         }
     </style>
+    <link href="{{ asset('css/responsive.css') }}" rel="stylesheet">
+</head>
 <body>
     <div class="d-flex">
         @include('admin.components.sidebar')
@@ -736,22 +738,44 @@
             const toggle = document.getElementById('sidebarToggle');
 
             function toggleSidebar() {
-                if (window.innerWidth <= 768) {
-                    sidebar.classList.toggle('show');
-                    overlay.classList.toggle('show');
-                }
+                if (!sidebar || !overlay || window.innerWidth > 991.98) return;
+
+                const isOpen = sidebar.classList.toggle('show');
+                overlay.classList.toggle('show', isOpen);
+                toggle.setAttribute('aria-expanded', String(isOpen));
             }
 
             if (toggle) {
                 toggle.addEventListener('click', toggleSidebar);
             }
 
+            function closeSidebar() {
+                if (!sidebar || !overlay) return;
+
+                sidebar.classList.remove('show');
+                overlay.classList.remove('show');
+                if (toggle) toggle.setAttribute('aria-expanded', 'false');
+            }
+
             if (overlay) {
-                overlay.addEventListener('click', function() {
-                    sidebar.classList.remove('show');
-                    overlay.classList.remove('show');
+                overlay.addEventListener('click', closeSidebar);
+            }
+
+            if (sidebar) {
+                sidebar.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        if (window.innerWidth <= 991.98) closeSidebar();
+                    });
                 });
             }
+
+            document.addEventListener('keydown', function(event) {
+                if (event.key === 'Escape') closeSidebar();
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 991.98) closeSidebar();
+            });
         });
     </script>
 </body>

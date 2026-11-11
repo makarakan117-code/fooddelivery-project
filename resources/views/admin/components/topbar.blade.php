@@ -1,6 +1,6 @@
 <nav class="topbar">
     <div class="topbar-left">
-        <button class="topbar-menu-btn" id="sidebarToggle" aria-label="Toggle sidebar">
+        <button class="topbar-menu-btn" id="sidebarToggle" aria-label="Toggle sidebar" aria-controls="adminSidebar" aria-expanded="false">
             <i class="bi bi-list"></i>
         </button>
         <div class="d-none d-md-flex align-items-center gap-2">
