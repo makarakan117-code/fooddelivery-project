@@ -1,5 +1,5 @@
 {
-  "buildCommand": "npm run build && php artisan package:discover --ansi",
+  "buildCommand": "npm run build",
   "outputDirectory": "public",
   "devCommand": "php artisan serve",
   "routes": [
