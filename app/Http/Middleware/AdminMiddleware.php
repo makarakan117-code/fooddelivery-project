@@ -10,8 +10,16 @@ class AdminMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        if (!Auth::check() || Auth::user()->role !== 'admin') {
-            return redirect()->route('login')->with('error', 'Access denied. Admins only.');
+        if (!Auth::check()) {
+            return redirect()->route('login')->withErrors([
+                'email' => 'Your sign-in session expired before the admin page opened. Please log in again.',
+            ]);
+        }
+
+        if (Auth::user()->role !== 'admin') {
+            return redirect()->route('login')->withErrors([
+                'email' => 'This account does not have admin access.',
+            ]);
         }
 
         return $next($request);
