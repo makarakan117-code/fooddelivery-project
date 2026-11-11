@@ -49,6 +49,8 @@ Keep the password in Vercel environment variables only. For TiDB Cloud hosts, La
 
 Generate `APP_KEY` with `php artisan key:generate --show` and store it as a secret in Vercel. The Laravel package manifests in `bootstrap/cache` are committed so the PHP runtime can load providers without writing to Vercel's read-only application filesystem.
 
+On Vercel, compiled Blade views are written to `/tmp/food-delivery-views`, since the deployed application filesystem is read-only. This temporary cache is recreated as needed.
+
 Use the cookie session driver on Vercel so web sessions do not rely on ephemeral function storage.
 
 After setting the variables, run `php artisan migrate --force` once from a trusted environment with the same database settings. Vercel's serverless filesystem is ephemeral, so the database must be external.

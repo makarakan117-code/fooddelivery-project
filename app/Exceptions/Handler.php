@@ -36,33 +36,13 @@ class Handler extends ExceptionHandler
         'password_confirmation',
     ];
 
-    protected function reportThrowable(Throwable $e): void
+    /**
+     * Register the exception handling callbacks for the application.
+     */
+    public function register(): void
     {
-        try {
-            parent::reportThrowable($e);
-        } finally {
-            $root = $e;
-            while ($root->getPrevious() !== null) {
-                $root = $root->getPrevious();
-            }
-
-            $errorCode = (string) $root->getCode();
-            if ($root instanceof \PDOException && is_array($root->errorInfo)) {
-                $sqlState = $root->errorInfo[0] ?? $errorCode;
-                $driverCode = $root->errorInfo[1] ?? '';
-                $errorCode = $driverCode === ''
-                    ? (string) $sqlState
-                    : $sqlState.'/'.$driverCode;
-            }
-
-            error_log(sprintf(
-                '[APP_EXCEPTION] %s; root=%s; code=%s; at=%s:%d',
-                get_class($e),
-                get_class($root),
-                $errorCode === '' ? 'none' : $errorCode,
-                basename($root->getFile()),
-                $root->getLine()
-            ));
-        }
+        $this->reportable(function (Throwable $e) {
+            //
+        });
     }
 }
