@@ -35,6 +35,7 @@ TiDB Cloud connects through Laravel's MySQL driver. Create a dedicated `food_del
 
 ```text
 APP_KEY=<generated Laravel application key>
+APP_URL=https://<your-production-domain>
 LOG_CHANNEL=stderr
 SESSION_DRIVER=cookie
 DB_CONNECTION=mysql
