@@ -6,7 +6,7 @@
   "rewrites": [
     {
       "source": "/(.*)",
-      "destination": "/index.php"
+      "destination": "/api/index.php"
     }
   ],
   "headers": [
@@ -38,7 +38,7 @@
     }
   ],
   "functions": {
-    "public/index.php": {
+    "api/index.php": {
       "runtime": "vercel-php@0.7.3",
       "maxDuration": 30
     }
