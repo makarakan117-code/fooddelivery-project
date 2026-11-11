@@ -9,8 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('reviews', function (Blueprint $table) {
-            $table->text('admin_reply')->nullable()->after('comment');
-            $table->timestamp('admin_reply_at')->nullable()->after('admin_reply');
+            $table->text('admin_reply')->nullable();
+            $table->timestamp('admin_reply_at')->nullable();
         });
     }
 
