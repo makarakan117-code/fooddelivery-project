@@ -59,8 +59,16 @@ return [
             'strict' => true,
             'engine' => null,
             'options' => extension_loaded('pdo_mysql') ? array_filter([
-                PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => env('MYSQL_ATTR_SSL_VERIFY_SERVER_CERT', false),
+                PDO::MYSQL_ATTR_SSL_CA => env(
+                    'MYSQL_ATTR_SSL_CA',
+                    Str::contains((string) env('DB_HOST', ''), 'tidbcloud.com')
+                        ? base_path('certs/isrgrootx1.pem')
+                        : null
+                ),
+                PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => env(
+                    'MYSQL_ATTR_SSL_VERIFY_SERVER_CERT',
+                    Str::contains((string) env('DB_HOST', ''), 'tidbcloud.com')
+                ),
             ]) : [],
         ],
 
